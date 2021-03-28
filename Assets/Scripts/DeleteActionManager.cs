@@ -24,6 +24,7 @@ public partial class WidgetManager : MonoBehaviour
     {
         string preCaret = actionsList.text.Substring(0, caretPosition);
         mainManager.DeleteAction(preCaret.Split('\n').Length - 1);
+        UploadEditActionPanel();
         UpdateDeleteActionPanel();
         mainManager.Save();
     }

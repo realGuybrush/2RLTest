@@ -104,6 +104,17 @@ public class RelationshipManager : MonoBehaviour
         scrollBox.AddButton();
         widgets.UpdateDeleteActionPanel();
     }
+    public void EditAction(int actionIndex, HumanActionStructure newAction)
+    {
+        humanActionList[actionIndex] = newAction;
+        foreach (List<CatReactionStructure> list in catReactionList)
+            foreach (CatReactionStructure item in list)
+                if ((item.subReactionActions!=null)&&(item.subReactionActions.Contains(humanActionList[actionIndex].actionName)))
+                {
+                    item.subReactionActions[item.subReactionActions.IndexOf(humanActionList[actionIndex].actionName)] = humanActionList[actionIndex].actionName;
+                }
+        scrollBox.SetButtonNames(humanActionList.Select(a => a.actionName).ToArray());
+    }
 
     public void DeleteAction(int index)
     {

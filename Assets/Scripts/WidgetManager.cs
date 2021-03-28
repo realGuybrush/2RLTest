@@ -21,6 +21,7 @@ public partial class WidgetManager : MonoBehaviour
     void Start()
     {
         addAButton.onClick.AddListener(TriggerAddAction);
+        editAButton.onClick.AddListener(TriggerEditAction);
         deleteAButton.onClick.AddListener(TriggerDeleteAction);
         addRButton.onClick.AddListener(TriggerAddReaction);
         deleteRButton.onClick.AddListener(TriggerDeleteReaction);
@@ -31,8 +32,10 @@ public partial class WidgetManager : MonoBehaviour
         subActionsRAddPanel.onValueChanged.AddListener(delegate { UpdateSubOnARPanel(); });
         actionsRDeletePanel.onValueChanged.AddListener(delegate { UpdateReactionDRPanel(); });
         moodsRDeletePanel.onValueChanged.AddListener(delegate { UpdateReactionDRPanel(); });
+        editAction.onValueChanged.AddListener(delegate { EditEditName(); editPathToIcon.text = mainManager.humanActionList[editAction.value].pathToIcon; });
 
         browseActionIcon.onClick.AddListener(BrowseActionIcon);
+        browseEditActionIcon.onClick.AddListener(BrowseEditActionIcon);
         browseReactionIcon.onClick.AddListener(BrowseReactionIcon);
         subBrowseReactionIcon.onClick.AddListener(BrowseSubReactionIcon);
     }
@@ -42,6 +45,7 @@ public partial class WidgetManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             addActionPanel.gameObject.SetActive(false);
+            editActionPanel.gameObject.SetActive(false);
             deleteActionPanel.gameObject.SetActive(false);
             addReactionPanel.gameObject.SetActive(false);
             deleteReactionPanel.gameObject.SetActive(false);
@@ -52,6 +56,7 @@ public partial class WidgetManager : MonoBehaviour
         mainManager.AddAction(new HumanActionStructure { actionName = newAction.text, pathToIcon = newPathToIcon.text, actionIcon = SpriteToSerialize.PathToSTexture(newPathToIcon.text) });
         newAction.text = "";
         newPathToIcon.text = "";
+        UploadEditActionPanel();
         UpdateDeleteActionPanel();
         UpdateARPActionList();
         mainManager.Save();
